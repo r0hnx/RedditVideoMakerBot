@@ -9,7 +9,6 @@ from utils.voice import check_ratelimit
 voices = [
     "Brian",
     "Emma",
-    "Russell",
     "Joey",
     "Matthew",
     "Joanna",
@@ -18,10 +17,7 @@ voices = [
     "Geraint",
     "Nicole",
     "Justin",
-    "Ivy",
-    "Kendra",
     "Salli",
-    "Raveena",
 ]
 
 

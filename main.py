@@ -49,7 +49,7 @@ def main(POST_ID=None) -> None:
     reddit_object = get_subreddit_threads(POST_ID)
     redditid = id(reddit_object)
     length, number_of_comments = save_text_to_mp3(reddit_object)
-    length = math.ceil(length)
+    length = math.ceil(length + number_of_comments + 2) # 2 sec title padding + 1 sec pad after each comment
     get_screenshots_of_reddit_posts(reddit_object, number_of_comments)
     bg_config = {
         "video": get_background_config("video"),

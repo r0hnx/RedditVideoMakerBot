@@ -177,17 +177,17 @@ def make_final_video(
 
     else:
         audio_clips = [
-            ffmpeg.input(f"assets/temp/{reddit_id}/mp3/{i}.mp3") for i in range(number_of_clips)
+            ffmpeg.filter_(ffmpeg.input(f"assets/temp/{reddit_id}/mp3/{i}.mp3"), 'apad', pad_dur=1) for i in range(number_of_clips)
         ]
-        audio_clips.insert(0, ffmpeg.input(f"assets/temp/{reddit_id}/mp3/title.mp3"))
+        audio_clips.insert(0, ffmpeg.filter_(ffmpeg.input(f"assets/temp/{reddit_id}/mp3/title.mp3"), 'apad', pad_dur=2))
 
         audio_clips_durations = [
-            float(ffmpeg.probe(f"assets/temp/{reddit_id}/mp3/{i}.mp3")["format"]["duration"])
+            float(ffmpeg.probe(f"assets/temp/{reddit_id}/mp3/{i}.mp3")["format"]["duration"])+1
             for i in range(number_of_clips)
         ]
         audio_clips_durations.insert(
             0,
-            float(ffmpeg.probe(f"assets/temp/{reddit_id}/mp3/title.mp3")["format"]["duration"]),
+            float(ffmpeg.probe(f"assets/temp/{reddit_id}/mp3/title.mp3")["format"]["duration"])+2,
         )
     audio_concat = ffmpeg.concat(*audio_clips, a=1, v=0)
     ffmpeg.output(
@@ -196,7 +196,7 @@ def make_final_video(
 
     console.log(f"[bold green] Video Will Be: {length} Seconds Long")
 
-    screenshot_width = int((W * 45) // 100)
+    screenshot_width = int((W * 50) // 100)
     audio = ffmpeg.input(f"assets/temp/{reddit_id}/audio.mp3")
     final_audio = merge_background_audio(audio, reddit_id)
 

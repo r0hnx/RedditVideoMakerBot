@@ -90,6 +90,9 @@ def get_subreddit_threads(POST_ID: str):
         submission, similarity_score = get_subreddit_undone(
             threads, subreddit, similarity_scores=similarity_scores
         )
+    elif settings.config["type"]["enabled"]:
+        threads = subreddit.top(time_filter=settings.config["type"]["time_filter"], limit=25)
+        submission = get_subreddit_undone(threads, subreddit)
     else:
         threads = subreddit.hot(limit=25)
         submission = get_subreddit_undone(threads, subreddit)

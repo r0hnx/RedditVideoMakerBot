@@ -43,6 +43,22 @@ def get_subreddit_undone(submissions: list, subreddit, times_checked=0, similari
             print_substep("This post was pinned by moderators. Skipping...")
             continue
         if (
+            submission.upvote_ratio <= float(settings.config["reddit"]["thread"]["min_upvote_ratio"])
+            and not settings.config["settings"]["storymode"]
+        ):
+            print_substep(
+                f'This post has under the specified minimum of upvote ratio ({settings.config["reddit"]["thread"]["min_upvote_ratio"]}). Skipping...'
+            )
+            continue
+        if (
+            submission.score <= int(settings.config["reddit"]["thread"]["min_upvotes"])
+            and not settings.config["settings"]["storymode"]
+        ):
+            print_substep(
+                f'This post has under the specified minimum of upvotes ({settings.config["reddit"]["thread"]["min_upvotes"]}). Skipping...'
+            )
+            continue
+        if (
             submission.num_comments <= int(settings.config["reddit"]["thread"]["min_comments"])
             and not settings.config["settings"]["storymode"]
         ):
